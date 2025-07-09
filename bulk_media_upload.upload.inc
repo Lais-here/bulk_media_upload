@@ -108,9 +108,9 @@ function bulk_media_upload_upload_form_submit($form, &$form_state) {
     $fields = field_info_instances(config_get('bulk_media_upload.settings','entity_type'), config_get('bulk_media_upload.settings','bundle'));
     foreach ($fields as $field) {
       $fieldinfo = field_info_field($field['field_name']);
-      if($fieldinfo['module'] == 'taxonomy'){
+      if ($fieldinfo['module'] == 'taxonomy') {
         foreach ($form_state['values']['default_values'][$field['field_name']][LANGUAGE_NONE] as $key => $term) {
-          if($term['tid'] == 'autocreate'){
+          if (is_array($term) && isset($term['tid']) && $term['tid'] === 'autocreate') {
             // Create term.
             $term = new TaxonomyTerm($term);
             unset($term->tid);
